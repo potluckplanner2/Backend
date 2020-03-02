@@ -7,6 +7,14 @@ module.exports = {
     useNullAsDefault:true,
     connection: {
       filename: './data/potluckDB.db3'
+    },
+    migrations: {
+      directory: './data/migrations'
+    },
+    pool: {
+      afterCreate: (conn, done) => {
+        conn.run('PRAGMA foreign_keys = ON', done);
+      }
     }
   },
 
