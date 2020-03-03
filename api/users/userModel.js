@@ -16,7 +16,6 @@ const add =  user => {
     return db('users').insert(user)
 }
 
-
 module.exports = {
     find,
     findByName,
