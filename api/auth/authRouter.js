@@ -7,12 +7,17 @@ const router = express.Router();
 
 
 router.get('/test', (req,res) => {
-    return res.status(200).json({message: "success!"})
+Users.find()
+  .then(users => {
+    res.json(users);
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get users' });
+  });
 })
 
 router.post('/register', validateRegister, (req, res) => {
     const userInfo = req.body;
-    console.log(req.body)
     const hash = bcrypt.hashSync(userInfo.password, 12);
     userInfo.password = hash;
 
@@ -21,8 +26,6 @@ router.post('/register', validateRegister, (req, res) => {
         .then(user => {
             delete user.password;
             const token =  signToken(user);
-            
-            
 
             const response = {
                 user,
@@ -33,6 +36,54 @@ router.post('/register', validateRegister, (req, res) => {
         }).catch(error => res.status(500).json(error))
 
 })
+
+router.post('/login', validateLogin, (req, res) => {
+    
+    const {username} = req.body;
+  
+    Users
+      .findByName({username})
+      .first()
+      .then(user => {
+        if (user && bcrypt.compareSync(req.body.password, user.password)) {
+          delete user.password;
+   
+          const token = signToken(user);
+          const response = {
+            user,
+            token
+          }
+          res.status(200).json(response);
+        } else {
+          res.status(404).json({ message: 'username or password is invalid' });
+        }
+      })
+      .catch(error => res.status(500).json(error));
+  })
+
+
+  async function validateLogin(req, res, next) {
+    const { username, password } = req.body;
+    const entries = Object.entries(req.body);
+  
+    if (!entries.length) {
+      return res.status(400).json({ message: 'no request body attached' });
+    }
+  
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+  
+    if (!username) {
+      return res.status(400).json({ message: 'must include a valid email' });
+    }
+  
+    if (!password) {
+      return res.status(400).json({ message: 'must include password' });
+    }
+
+    next();
+  
+  }
+
 
 async function validateRegister(req, res, next) {
     const { username , password} = req.body;

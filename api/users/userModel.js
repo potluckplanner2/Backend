@@ -4,21 +4,21 @@ const find = () => {
     return db('users');
 }
 
-
-const findBy = id => {
+const findByName = name => {
+    console.log(name.username)
+    
     return db('users')
-        .select('users.id', 'users.name', 'users.password')
-        .where(id === 'users.id')
+    .select('id','username','password')
+    .where({username: name.username});
 }
 
 const add =  user => {
     return db('users').insert(user)
-
 }
 
 
 module.exports = {
     find,
-    findBy,
+    findByName,
     add
 }
