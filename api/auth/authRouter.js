@@ -119,7 +119,7 @@ function signToken(user) {
     
     const secret = process.env.JWT_SECRET;
     
-    const options = { expiresIn: '1h' };
+    const options = { expiresIn: '12h' };
     
     return jwt.sign(payload, secret, options);
 }
