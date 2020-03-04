@@ -5,11 +5,19 @@ const find = () => {
 }
 
 const findById = (id) => {
+        
+    return db('potlucks')
+                .where({id: id})
+                .first();
 
-    console.log('in find by id', id)
+}
+
+const findUserPotlucks = (id) => {
+
+    console.log('in find potlucks', id)
     return db('potlucks')
         .select('id', 'title', 'description', 'date', 'userID')
-        .where({id});
+        .where({userID: id});
 }
 
 const remove = (id) => {
@@ -19,6 +27,12 @@ const remove = (id) => {
             .where({id: id})
             .del();
 
+}
+
+function update(changes, id){
+    return db('potlucks')
+            .where({id})
+            .update(changes);
 }
 
 const add = async (potluck) => {
@@ -56,6 +70,8 @@ const add = async (potluck) => {
 module.exports = {
     find,
     findById,
+    findUserPotlucks,
     add,
-    remove
+    remove,
+    update
 }
