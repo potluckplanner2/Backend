@@ -42,8 +42,8 @@ router.delete('/potluck/:id', (req,res) => {
 
     potlucks
         .remove(id)
-        .then(potluck => {
-            res.status(200).status({message: 'Sucessfully deleted a potluck'})
+        .then(deleted => {
+            res.json({ removed: deleted });
         })
         .catch(error => res.status(500).json(error))
 })

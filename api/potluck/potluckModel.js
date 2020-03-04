@@ -9,14 +9,14 @@ const findById = (id) => {
     console.log('in find by id', id)
     return db('potlucks')
         .select('id', 'title', 'description', 'date', 'userID')
-        .where({userID:id});
+        .where({id});
 }
 
 const remove = (id) => {
 
     console.log('in remove', id)
     return db('potlucks')
-            .where(id)
+            .where({id: id})
             .del();
 
 }
