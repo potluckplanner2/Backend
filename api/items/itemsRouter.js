@@ -8,8 +8,7 @@ router.post('/items/:id', (req,res) => {
     const {id} = req.params;
 
     const item = req.body.item;
-    console.log(id)
-    console.log(item)
+
 
     const newItem = {potluckID: id, items: item}
 
@@ -22,6 +21,7 @@ router.post('/items/:id', (req,res) => {
         }).catch(error => res.status(500).json(error))
 
 })
+
 
 router.delete('/items/:id', (req,res) => {
     const {id} = req.params;
