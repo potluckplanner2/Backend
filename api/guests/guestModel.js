@@ -1,12 +1,18 @@
 const db = require('../../data/dbConfig');
 
-
-
-const add =  (potluckID,guest_name) => {
-    db('guests').insert(potluckID,guest_name);
+const add =  (guest) => {
+   return db('guests').insert(guest);
 }
 
+const findById = (id) => {
+        
+    return db('guests')
+                .where({potluckID: id});
+              
+
+}
 
 module.exports = {
-    add
+    add, 
+    findById
 }

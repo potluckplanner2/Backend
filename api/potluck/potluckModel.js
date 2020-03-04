@@ -17,6 +17,7 @@ const findUserPotlucks = (id) => {
     console.log('in find potlucks', id)
     return db('potlucks')
         .where({userID: id});
+
 }
 
 const remove = (id) => {
@@ -34,11 +35,8 @@ function update(changes, id){
             .update(changes);
 }
 
-const add = async (potluck) => {
+const add = (potluck) => {
 
-    console.log(potluck)
-    const items = potluck.items;
-    const guest = potluck.guests;
     const title = potluck.title;
     const description = potluck.description;
     const date = potluck.date;
@@ -50,17 +48,7 @@ const add = async (potluck) => {
         userID
     }
 
-    /*if(!guest.length === 0){
-        const batchGuest = 
-
-    }*/
-    
-    console.log(potluckObj)
-
-    const [potluckID] = await db('potlucks').insert(potluckObj, 'id');
-    console.log('potluckID', potluckID)
-
-    return potluckID;
+    return db('potlucks').insert(potluckObj, 'id');
 
 }
 
