@@ -8,11 +8,26 @@ const findById = (id) => {
         
     return db('guests')
                 .where({potluckID: id});
-              
+}
+
+const remove = (id) => {
+
+    console.log('in remove', id)
+    return db('guests')
+            .where({id: id})
+            .del();
 
 }
 
+function update(changes, id){
+    return db('guests')
+            .where({id})
+            .update(changes);
+}
+
+
 module.exports = {
     add, 
-    findById
+    findById,
+    remove
 }
