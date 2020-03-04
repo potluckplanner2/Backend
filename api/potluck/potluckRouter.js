@@ -39,6 +39,7 @@ router.get('/potlucks', (req,res) => {
 
 router.delete('/potluck/:id', (req,res) => {
     const {id} = req.params;
+    
 
     potlucks
         .remove(id)
@@ -46,6 +47,26 @@ router.delete('/potluck/:id', (req,res) => {
             res.json({ removed: deleted });
         })
         .catch(error => res.status(500).json(error))
+})
+
+router.put('/potluck/:id', (req,res) => {
+    const {id} = req.params;
+    const changes = req.body;
+
+    potlucks.findById(id)
+        .then(potluck => {
+            console.log(potluck)
+            if(potluck){
+                potlucks.update(changes, id)
+                .then(updatePotluck => {
+                    res.json(updatePotluck);
+                })
+            }else {
+                res.status(404).json({ message: 'Could not find potluck with given id' });
+            }
+        }).catch (err => {
+            res.status(500).json(err);
+          });
 })
 
 module.exports = router;
