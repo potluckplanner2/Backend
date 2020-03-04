@@ -9,7 +9,7 @@ router.get('/potluck', (req,res) => {
         .find()
         .then(meals => {
             res.status(200).json(meals)
-        })
+        }).catch(error => res.status(500).json(error))
         
 })
 
@@ -29,17 +29,14 @@ router.get('/potlucks', (req,res) => {
     console.log(id)
 
     potlucks
-        .findById(id)
+        .findUserPotlucks(id)
         .then(potlucks => {
-            res.status(200).status(potlucks)
+            res.status(200).json(potlucks)
         }).catch(error => res.status(500).json(error))
-
-
 })
 
 router.delete('/potluck/:id', (req,res) => {
     const {id} = req.params;
-    
 
     potlucks
         .remove(id)

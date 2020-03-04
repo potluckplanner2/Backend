@@ -16,7 +16,6 @@ const findUserPotlucks = (id) => {
 
     console.log('in find potlucks', id)
     return db('potlucks')
-        .select('id', 'title', 'description', 'date', 'userID')
         .where({userID: id});
 }
 
