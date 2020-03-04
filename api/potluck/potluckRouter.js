@@ -37,4 +37,15 @@ router.get('/potlucks', (req,res) => {
 
 })
 
+router.delete('/potluck/:id', (req,res) => {
+    const {id} = req.params;
+
+    potlucks
+        .remove(id)
+        .then(potluck => {
+            res.status(200).status({message: 'Sucessfully deleted a potluck'})
+        })
+        .catch(error => res.status(500).json(error))
+})
+
 module.exports = router;
